@@ -1,10 +1,23 @@
-import { Navbar } from ".."
+import { addDays } from "date-fns"
+import { Calendar, CalendarModal, Navbar } from ".."
 
 export const CalendarPage = () => {
-    return (
-        <div>
-            <Navbar />
-            <h1>Calendar Page</h1>
-        </div>
-    )
+
+  const events = [
+    { 
+      title: 'Cumpleaños del jefe',
+      start: new Date(),
+      end: addDays(new Date(), 3),
+      bgcolor: '#fafafa',
+      notes: 'Comprar el pastel',
+    }
+  ]
+
+  return (
+    <div>
+      <Navbar />
+      <Calendar events={events} />
+      <CalendarModal />
+    </div>
+  )
 }
