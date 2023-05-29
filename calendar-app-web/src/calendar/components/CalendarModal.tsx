@@ -1,4 +1,4 @@
-import { ChangeEvent, FormEvent, useMemo, useState } from 'react';
+import { ChangeEvent, FormEvent, useMemo, useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import { addHours, differenceInSeconds } from 'date-fns';
 import DatePicker from 'react-datepicker';
@@ -7,6 +7,7 @@ import Swal from 'sweetalert2';
 import "./CalendarModal.css"
 import "react-datepicker/dist/react-datepicker.css";
 import 'sweetalert2/dist/sweetalert2.css'
+import { useCalendarStore, useUIStore } from '../../hooks';
 
 const customStyles = {
   content: {
@@ -22,21 +23,30 @@ const customStyles = {
 Modal.setAppElement('#root');
 
 export const CalendarModal = () => {
-
-  const [modalIsOpen, setIsOpen] = useState(true);
+  const { isDateModelOpen, closeDateModal } = useUIStore();
+  const { activeEvent, setActiveEvent, startSavingEvent } = useCalendarStore();
   const [formSubmitted, setFormSubmitted] = useState(false);
 
-  
   const [formValues, setFormValues] = useState({
-    title: 'Event',
+    title: '',
     notes: '',
     start: new Date(),
-    end: addHours(new Date(), 2),
+    end: addHours(new Date(), 1),
   })
+
   const titleClass = useMemo(() => {
     if (!formSubmitted) return '';
     return formValues.title.trim().length < 2 ? 'is-invalid' : '';
   }, [formValues, formSubmitted]);
+
+  useEffect(() => {
+    if (activeEvent) {
+      setFormValues({
+        ...activeEvent,
+      })
+    }
+  }, [activeEvent])
+  
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const target = event.target;
@@ -47,10 +57,11 @@ export const CalendarModal = () => {
   }
 
   function closeModal() {
-    setIsOpen(false);
+    closeDateModal();
+    setActiveEvent(null);
   }
 
-  const onSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormSubmitted(true);
     const diff = differenceInSeconds(formValues.end, formValues.start);
@@ -66,11 +77,15 @@ export const CalendarModal = () => {
       Swal.fire('Error', 'Title is required', 'error');
       return;
     }
+
+    await startSavingEvent(formValues);
+    closeDateModal();
+    setFormSubmitted(false);
   }
 
   return (
     <Modal
-        isOpen={modalIsOpen}
+        isOpen={isDateModelOpen}
         onRequestClose={closeModal}
         style={customStyles}
         contentLabel="Example Modal"

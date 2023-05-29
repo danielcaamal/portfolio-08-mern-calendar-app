@@ -4,9 +4,13 @@ import 'react-big-calendar/lib/css/react-big-calendar.css';
 import { getCalendarLocalizer } from "../helpers";
 import { CalendarEvent } from ".";
 import { useState } from "react";
+import { useCalendarStore, useUIStore } from "../../hooks";
+import { IEvent } from "../../store/calendar";
 
-export const Calendar = ({ events } : { events: any[]}) => {
+export const Calendar = () => {
 
+  const { openDateModal } = useUIStore();
+  const { events, setActiveEvent } = useCalendarStore();
   const [lastView, setLastView] = useState<View>((localStorage.getItem('lastView') || "month") as View);
 
   const eventStyleGetter = (event: any, start: any, end: any, isSelected: any) => {
@@ -21,17 +25,17 @@ export const Calendar = ({ events } : { events: any[]}) => {
     };
   };
 
-  const onDoubleClick = (e: any) => {
-    console.log(e)
+  const onDoubleClick = (event: IEvent) => {
+    openDateModal();
   };
 
-  const onSelectEvent = (e: any) => {
-    console.log(e)
+  const onSelectEvent = (event: IEvent) => {
+    setActiveEvent(event);
   }
 
-  const onViewChanged = (e: View) => {
-    setLastView(e)
-    localStorage.setItem('lastView', e)
+  const onViewChanged = (view: View) => {
+    setLastView(view)
+    localStorage.setItem('lastView', view)
   }
 
   return (
