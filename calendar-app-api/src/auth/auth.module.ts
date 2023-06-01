@@ -30,6 +30,11 @@ import { User, UserSchema } from './entities/user.entity';
         }
       }
     })
+  ],
+  exports: [
+    PassportModule,
+    JwtModule,
+    AuthModule
   ]
 })
 export class AuthModule {}
