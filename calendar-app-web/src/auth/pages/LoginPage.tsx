@@ -21,10 +21,10 @@ const registerFormFields = {
 export const LoginPage = () => {
 
   const { loginEmail, loginPassword, 
-    formState: loginFormState, onInputChange: onLoginInputChange 
+    onInputChange: onLoginInputChange 
   } = useForm(loginFormFields);
   const { registerName, registerEmail, registerPassword, registerPassword2, 
-    formState: registerFormState, onInputChange: onRegisterInputChange 
+    onInputChange: onRegisterInputChange 
   } = useForm(registerFormFields);
 
   const { startLogin, startRegister, error } = useAuthStore();
@@ -74,6 +74,7 @@ export const LoginPage = () => {
                 name="loginPassword"
                 value={ loginPassword }
                 onChange={ onLoginInputChange }
+                autoComplete='off'
               />
             </div>
             <div className="form-group mb-2">
@@ -119,6 +120,7 @@ export const LoginPage = () => {
                 name="registerPassword"
                 value={ registerPassword }
                 onChange={ onRegisterInputChange }
+                autoComplete='off'
               />
             </div>
 
@@ -130,6 +132,7 @@ export const LoginPage = () => {
                 name="registerPassword2"
                 value={ registerPassword2 }
                 onChange={ onRegisterInputChange }
+                autoComplete='off'
               />
             </div>
 

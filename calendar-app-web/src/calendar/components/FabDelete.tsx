@@ -3,10 +3,10 @@ import { useCalendarStore } from '../../hooks/useCalendarStore';
 
 export const FabDelete = () => {
 
-  const { startDeleteEvent, hasEventSelected } = useCalendarStore();
+  const { startDeletingEvent, hasEventSelected } = useCalendarStore();
 
   const handleClick = async () => {
-    await startDeleteEvent();
+    await startDeletingEvent();
   }
 
   return (

@@ -1,25 +1,22 @@
-import { addDays } from "date-fns";
+import { IUser } from "../auth/authState";
 
 export interface ICalendarState {
   activeEvent: IEvent | null;
   events: IEvent[];
+  error?: string;
 }
 
 export interface IEvent {
   id?: string;
   title: string;
-  start: string;
-  end: string;
+  start: Date;
+  end: Date;
   notes: string;
+  user: IUser;
 }
 
 export const calendarInitialState: ICalendarState = {
   activeEvent: null,
-  events: [{
-    id: '1',
-    title: 'Cumpleaños del jefe',
-    start: new Date().toISOString(),
-    end: addDays(new Date(), 1).toISOString(),
-    notes: 'Comprar el pastel',
-  }]
+  events: [],
+  error: undefined,
 }

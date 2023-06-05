@@ -32,6 +32,11 @@ export const CalendarModal = () => {
     notes: '',
     start: new Date(),
     end: addHours(new Date(), 1),
+    user: {
+      id: '',
+      fullName: '',
+      email: '',
+    },
   })
 
   const titleClass = useMemo(() => {

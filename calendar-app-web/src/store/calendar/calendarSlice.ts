@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { calendarInitialState } from './calendarState';
+import { IEvent, calendarInitialState } from './calendarState';
 
 
 export const calendarSlice = createSlice({
@@ -13,6 +13,10 @@ export const calendarSlice = createSlice({
       state.events.push(payload);
       state.activeEvent = null;
     },
+    onLoadingEvents: (state, { payload } : { payload: IEvent[]}) => {
+      state.events = payload;
+      state.activeEvent = null;
+    },
     onUpdateEvent: (state, { payload }) => {
       state.events = state.events.map(event => event.id === payload.id ? payload : event);
       state.activeEvent = null;
@@ -21,7 +25,10 @@ export const calendarSlice = createSlice({
       state.events = state.events.filter(event => event.id !== state.activeEvent?.id);
       state.activeEvent = null;
     },
+    onError: (state, { payload } : { payload: string }) => {
+      state.error = payload;
+    },
   },
 });
 
-export const { onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent } = calendarSlice.actions;
+export const { onLoadingEvents, onSetActiveEvent, onAddNewEvent, onUpdateEvent, onDeleteEvent, onError } = calendarSlice.actions;
