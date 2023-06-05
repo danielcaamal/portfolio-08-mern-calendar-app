@@ -48,7 +48,10 @@ export class AuthService {
     const tokenPayload = this.jwtService.decode(token.toString()) as JwtPayload;
     if (tokenPayload.userId !== user.id) throw new BadRequestException('Invalid token');
     return {
-      refreshToken: await this.getJwtToken({ userId: user.id })
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      token: await this.getJwtToken({ userId: user.id })
     };
   };
 

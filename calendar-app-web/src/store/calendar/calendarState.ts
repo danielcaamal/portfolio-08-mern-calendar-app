@@ -8,8 +8,8 @@ export interface ICalendarState {
 export interface IEvent {
   id?: string;
   title: string;
-  start: Date;
-  end: Date;
+  start: string;
+  end: string;
   notes: string;
 }
 
@@ -18,8 +18,8 @@ export const calendarInitialState: ICalendarState = {
   events: [{
     id: '1',
     title: 'Cumpleaños del jefe',
-    start: new Date(),
-    end: addDays(new Date(), 1),
+    start: new Date().toISOString(),
+    end: addDays(new Date(), 1).toISOString(),
     notes: 'Comprar el pastel',
   }]
 }
