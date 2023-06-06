@@ -19,7 +19,7 @@ export const CalendarEvent = ({ event }: { event: EventProps<IEvent> }) => {
       <br />
       <strong>{title}</strong>
       <br />
-      <span>- {user?.fullName}</span>
+      <span>{user?.fullName}</span>
     </div>
   );
 };
